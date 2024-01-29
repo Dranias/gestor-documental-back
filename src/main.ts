@@ -1,9 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { ConfigService } from '@nestjs/config';
 
 
 
 async function bootstrap() {
+  const configService = new ConfigService();
   const app = await NestFactory.create(AppModule);
   
   app.enableCors({
@@ -13,8 +15,10 @@ async function bootstrap() {
     credentials: true,
   });
 
-  app.listen(3000, '0.0.0.0', () => {
-    console.log('Server listening on port 3000');
+  const PORT = configService.get('APP_PORT');
+  await app.listen(PORT, () => {
+    console.log(`Server listening on port ${PORT}`);
   });
 }
+
 bootstrap();
