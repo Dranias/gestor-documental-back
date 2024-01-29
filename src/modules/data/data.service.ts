@@ -35,7 +35,7 @@ export class DataService {
             newData.time = time;
             newData.issue = issue;
             newData.name = name;
-            newData.docNumber = Array.isArray(docNumber) ? docNumber : [docNumber]; // Si docNumber no es un array, conviértelo en un array con un solo elemento
+            newData.docNumber = Array.isArray(docNumber) ? docNumber : [docNumber]; // Si docNumber no es un array, se convierte en un array con un solo elemento
             newData.description = description;
             newData.institution = institution;
             newData.legalBasis = legalBasis;
