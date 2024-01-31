@@ -32,6 +32,11 @@ export class DataController {
     return this.dataService.searchDataByFolioOrName(query);
   }
 
+  @Get('/list')
+  async getAllDataforList(): Promise<Data[]> {
+    return this.dataService.getAllDataforList();
+  }
+
   @Get('/all')
   async getAllData(): Promise<Data[]> {
     return this.dataService.getAllData();

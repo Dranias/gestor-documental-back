@@ -76,6 +76,14 @@ export class DataService {
         });
     }
 
+    async getAllDataforList(): Promise<Data[]> {
+        return await this.dataRepository.find({
+            order: {
+                docNumber: 'DESC',
+            },
+        });
+    }
+
     async deleteDataById(id: string): Promise<string> {
         const data = await this.dataRepository.findOne({ where: { id } });
         if (!data) {
