@@ -22,10 +22,9 @@ export class DataService {
         const docNumberArray = Array.isArray(docNumber) ? docNumber : [docNumber];
 
         const exists = await Promise.all(docNumberArray.map(number => this.getByDocNum(number)));
-        console.log("Existe: ", exists)
 
         if (exists.some(Boolean)) {
-            throw new HttpException('El número de documento ya existe', HttpStatus.BAD_REQUEST);
+            throw new HttpException({ message: 'El número de documento ya existe' }, HttpStatus.BAD_REQUEST);
         }
 
         const product = await this.dataRepository.manager.transaction(async (transactionalEntityManager) => {

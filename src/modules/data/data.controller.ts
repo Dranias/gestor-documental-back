@@ -15,15 +15,23 @@ export class DataController {
       const data = await this.dataService.createDataSheet(createProductDto)
       return {
         success: true,
-        message: 'Data sheet created successfully',
+        message: 'Hoja de datos creada exitosamente',
         data: data,
       };
     } catch (error) {
-      console.log(error)
-      throw new HttpException(
-        'Error creating product',
-        HttpStatus.INTERNAL_SERVER_ERROR
-      )
+      console.log("Este es el error:", error)
+      if(error.message === 'El número de documento ya existe')
+      {
+        throw new HttpException(
+          'El número de documento ya existe',
+          HttpStatus.BAD_REQUEST
+        )
+      }else{
+        throw new HttpException(
+          'Error en el sistema, por favot intente de nuevo',
+          HttpStatus.INTERNAL_SERVER_ERROR
+        )
+      }
     }
   }
 
