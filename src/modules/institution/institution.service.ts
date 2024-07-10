@@ -25,7 +25,6 @@ export class InstitutionService {
             await transactionalEntityManager.save(newinstitution);
             return newinstitution;
         });
-
     }
 
     async getAllData(): Promise<Institution[]> {
@@ -47,6 +46,17 @@ export class InstitutionService {
         await this.institutionRepository.save(data);
 
         return { message: `Actualizado correctamente` };
+    }
+
+    async deleteById(id: string): Promise<{ message: string }> {
+        const data = await this.institutionRepository.findOne({ where: { id } });
+        if (!data) {
+            throw new NotFoundException(`No encontrado`);
+        }
+
+        await this.institutionRepository.remove(data);
+
+        return { message: `Eliminado correctamente` };
     }
 
 }

@@ -56,7 +56,6 @@ export class DataService {
             .where('data.docNumber LIKE :query', { query: `%${query}%` })
             .orWhere('data.name LIKE :query', { query: `%${query}%` })
             .getMany();
-
         return searchData;
     }
 
