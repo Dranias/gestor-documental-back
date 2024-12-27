@@ -52,7 +52,7 @@ export class AgendaController {
     }
 
     // Endpoint para obtener todos los registros ordenados por el cargo (position)
-    @Get()
+    @Get('/all')
     async getAllAgendaByPosition(): Promise<Agenda[]> {
         try {
             return await this.agendaService.getAllAgendaByPosition();
