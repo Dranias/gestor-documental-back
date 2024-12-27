@@ -8,12 +8,13 @@ import { typeOrmConfigAsync } from './config/typeorm.config';
 import { IssueModule } from './modules/issue/issue.module';
 import { InstitutionModule } from './modules/institution/institution.module';
 import { InvitationModule } from './modules/invitation/invitation.module';
+import { AgendaModule } from './modules/agenda/agenda.module'
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync(typeOrmConfigAsync),
-    DataModule, IssueModule, InstitutionModule, InvitationModule,
+    DataModule, IssueModule, InstitutionModule, InvitationModule, AgendaModule,
   ],
   controllers: [AppController],
   providers: [AppService],
