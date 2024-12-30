@@ -9,6 +9,7 @@ import { IssueModule } from './modules/issue/issue.module';
 import { InstitutionModule } from './modules/institution/institution.module';
 import { InvitationModule } from './modules/invitation/invitation.module';
 import { AgendaModule } from './modules/agenda/agenda.module'
+import { SocketGateway } from './gateways/socket.gateway/socket.gateway.gateway';
 
 @Module({
   imports: [
@@ -17,6 +18,6 @@ import { AgendaModule } from './modules/agenda/agenda.module'
     DataModule, IssueModule, InstitutionModule, InvitationModule, AgendaModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, SocketGateway],
 })
 export class AppModule {}
