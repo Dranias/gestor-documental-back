@@ -14,5 +14,8 @@ export class UpdateAgendaDto {
     phone: string;
 
     @IsString()
-    adress: string;
+    address: string;
+
+    @IsString()
+    email: string;
 }

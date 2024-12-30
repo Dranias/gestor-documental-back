@@ -4,6 +4,7 @@ import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 import { CreateIssueDto } from "./dto/create-issue.dto";
 import { UpdateIssueDto } from "./dto/update-issue.dto";
+import { SocketGateway } from "../../gateways/socket.gateway/socket.gateway.gateway";
 
 @Injectable()
 export class IssueService {
@@ -11,11 +12,11 @@ export class IssueService {
     constructor(
         @InjectRepository(Issue)
         private readonly issueRepository: Repository<Issue>,
+        private readonly socketGateway: SocketGateway, // Inyectar el gateway
     ) { }
 
     async createIssue(issueRepository: CreateIssueDto) {
         const { issue } = issueRepository;
-
         const product = await this.issueRepository.manager.transaction(async (transactionalEntityManager) => {
             const newissue = new Issue();
             newissue.issue = issue;
@@ -23,7 +24,10 @@ export class IssueService {
             await transactionalEntityManager.save(newissue);
             return newissue;
         });
-
+        // Emitir el evento "issue-added" con el nuevo issue
+        console.log("Viene el gateway");
+        this.socketGateway.broadcast('issue-added', product);
+        return product;
     }
 
     async getAllData(): Promise<Issue[]> {

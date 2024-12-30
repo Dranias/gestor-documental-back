@@ -14,7 +14,7 @@ export class AgendaService {
 
     // Crear un nuevo registro en la agenda
     async createAgenda(createAgendaDto: CreateAgendaDto): Promise<Agenda> {
-        const { name, position, phone, adress } = createAgendaDto;
+        const { name, position, phone, address, email } = createAgendaDto;
 
         // Validar si ya existe un registro con el mismo nombre
         const exists = await this.agendaRepository.findOne({ where: { name } });
@@ -32,8 +32,8 @@ export class AgendaService {
             newAgenda.name = name;
             newAgenda.position = position;
             newAgenda.phone = phone;
-            newAgenda.address = adress;
-            newAgenda.email = adress;
+            newAgenda.address = address;
+            newAgenda.email = email;
             newAgenda.createdAt = new Date();
             await transactionalEntityManager.save(newAgenda);
             return newAgenda;

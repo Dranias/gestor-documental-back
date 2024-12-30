@@ -12,7 +12,7 @@ export class CreateAgendaDto {
     phone: string;
 
     @IsString()
-    adress: string;
+    address: string;
 
     @IsString()
     email: string;

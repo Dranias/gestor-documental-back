@@ -18,8 +18,7 @@ import { Server, Socket } from 'socket.io';
   },
 })
 export class SocketGateway
-  implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
-{
+  implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;
 
@@ -39,6 +38,7 @@ export class SocketGateway
   // Método ejecutado al desconectar un cliente
   handleDisconnect(client: Socket) {
     this.logger.log(`Cliente desconectado: ${client.id}`);
+    console.log(`Cliente desconectado: ${client.id}`);
   }
 
   // Ejemplo de un evento WebSocket
@@ -52,8 +52,9 @@ export class SocketGateway
     });
   }
 
-  // Evento personalizado: notificar a los clientes
-  notifyClients(event: string, data: any) {
-    this.server.emit(event, data); // Emitir evento a todos los clientes
+  // Método para emitir eventos a todos los clientes
+  broadcast(event: string, data: any) {
+    console.log(`Emitiendo evento: ${event}`, data);  // Verificar que se está emitiendo correctamente
+    this.server.emit(event, data);  // Emitir el evento
   }
 }
