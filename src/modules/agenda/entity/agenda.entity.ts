@@ -30,6 +30,11 @@ export class Agenda {
   @IsString()
   address: string;
 
+  @Column({ type: 'longtext' })
+  @IsString()
+  @ArrayNotEmpty()
+  email: string;
+
   @Column()
   createdAt: Date;
 

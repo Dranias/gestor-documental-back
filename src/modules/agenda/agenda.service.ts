@@ -33,6 +33,7 @@ export class AgendaService {
             newAgenda.position = position;
             newAgenda.phone = phone;
             newAgenda.address = adress;
+            newAgenda.email = adress;
             newAgenda.createdAt = new Date();
             await transactionalEntityManager.save(newAgenda);
             return newAgenda;
@@ -73,7 +74,7 @@ export class AgendaService {
     async getAllAgendaByPosition(): Promise<Agenda[]> {
         return await this.agendaRepository.find({
             order: {
-                position: 'ASC', // Ordenar por position en orden ascendente (puedes cambiar a 'DESC' si necesitas descendente)
+                position: 'DESC', // Ordenar por position en orden ascendente (puedes cambiar a 'DESC' si necesitas descendente)
             },
         });
     }

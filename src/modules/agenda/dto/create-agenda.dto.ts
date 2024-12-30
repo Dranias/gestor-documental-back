@@ -13,4 +13,7 @@ export class CreateAgendaDto {
 
     @IsString()
     adress: string;
+
+    @IsString()
+    email: string;
 }
