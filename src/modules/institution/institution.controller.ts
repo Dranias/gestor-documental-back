@@ -13,7 +13,7 @@ export class InstitutionController {
     @Post()
     async createDataSheet(@Body() createInstitutionDto: CreateInstitutionDto) {
         try {
-            const data = await this.institutionService.createIssue(createInstitutionDto)
+            const data = await this.institutionService.createInstitution(createInstitutionDto)
             return {
                 success: true,
                 message: 'Dependencia creada exitosamente',

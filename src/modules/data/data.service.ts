@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateDataDto } from './dto/create-data.dto';
 import { UpdateDataDto } from './dto/update-data.dto';
 import { ILike } from 'typeorm';
+import { SocketGateway } from "../../gateways/socket.gateway/socket.gateway.gateway";
 
 @Injectable()
 export class DataService {
@@ -12,6 +13,7 @@ export class DataService {
     constructor(
         @InjectRepository(Data)
         private readonly dataRepository: Repository<Data>,
+        private readonly socketGateway: SocketGateway, // Inyectar el gateway
     ) { }
 
     async createDataSheet(createProductDto: CreateDataDto) {
@@ -43,6 +45,8 @@ export class DataService {
             await transactionalEntityManager.save(newData);
             return newData;
         });
+        // Emitir el evento "data-added" con el nuevo issue
+        this.socketGateway.broadcast('data-added', product);
         return product;
     }
 
@@ -75,11 +79,14 @@ export class DataService {
     }
 
     async getAllDataforList(): Promise<Data[]> {
-        return await this.dataRepository.find({
+        // Realizar la consulta y obtener los datos
+        const data = await this.dataRepository.find({
             order: {
                 docNumber: 'DESC',
             },
         });
+        // Emitir el evento antes de devolver los datos
+        return data;
     }
 
     async deleteDataById(id: string): Promise<string> {
@@ -104,6 +111,8 @@ export class DataService {
         Object.assign(data, updateDataDto);
 
         await this.dataRepository.save(data);
+
+        this.socketGateway.broadcast('data-patch', data.docNumber);
 
         return { message: `Actualizado correctamente` };
     }

@@ -4,12 +4,14 @@ import { Repository } from 'typeorm';
 import { CreateAgendaDto } from './dto/create-agenda.dto';
 import { UpdateAgendaDto } from './dto/update-agenda.dto';
 import { Agenda } from './entity/agenda.entity';
+import { SocketGateway } from "../../gateways/socket.gateway/socket.gateway.gateway";
 
 @Injectable()
 export class AgendaService {
     constructor(
         @InjectRepository(Agenda)
         private readonly agendaRepository: Repository<Agenda>,
+        private readonly socketGateway: SocketGateway, // Inyectar el gateway
     ) { }
 
     // Crear un nuevo registro en la agenda
@@ -39,6 +41,8 @@ export class AgendaService {
             return newAgenda;
         });
 
+        this.socketGateway.broadcast('agenda-added', agenda.position);
+
         return agenda;
     }
 
@@ -54,6 +58,8 @@ export class AgendaService {
 
         await this.agendaRepository.save(agenda);
 
+        this.socketGateway.broadcast('agenda-patch', agenda.position);
+
         return { message: `Actualizado correctamente` };
     }
 
@@ -66,6 +72,8 @@ export class AgendaService {
         }
 
         await this.agendaRepository.remove(agenda);
+
+        this.socketGateway.broadcast('agenda-delete', agenda.position);
 
         return `Eliminado correctamente`;
     }

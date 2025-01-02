@@ -13,7 +13,7 @@ export class IssueService {
         @InjectRepository(Issue)
         private readonly issueRepository: Repository<Issue>,
         private readonly socketGateway: SocketGateway, // Inyectar el gateway
-    ) { }
+    ) {}
 
     async createIssue(issueRepository: CreateIssueDto) {
         const { issue } = issueRepository;
@@ -25,8 +25,7 @@ export class IssueService {
             return newissue;
         });
         // Emitir el evento "issue-added" con el nuevo issue
-        console.log("Viene el gateway");
-        this.socketGateway.broadcast('issue-added', product);
+        this.socketGateway.broadcast('issue-added', product.issue);
         return product;
     }
 
@@ -51,4 +50,19 @@ export class IssueService {
         return { message: `Actualizado correctamente` };
     }
 
+    async deleteIssueById(id: string): Promise<{ message: string }> {
+        // Buscar el issue por ID
+        const issue = await this.issueRepository.findOne({ where: { id } });
+        if (!issue) {
+            throw new NotFoundException(`Issue con ID ${id} no encontrado`);
+        }
+
+        // Eliminar el issue
+        await this.issueRepository.remove(issue);
+
+        // Emitir el evento "issue-deleted" con el ID del issue eliminado
+        this.socketGateway.broadcast('issue-deleted', issue.issue);
+
+        return { message: `Issue con ID ${id} eliminado correctamente` };
+    }
 }

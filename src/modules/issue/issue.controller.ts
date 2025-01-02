@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, NotFoundException, Param, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, NotFoundException, Param, Patch, Post } from "@nestjs/common";
 import { IssueService } from "./issue.service";
 import { CreateIssueDto } from "./dto/create-issue.dto";
 import { Issue } from "./entity/data.entity";
@@ -46,4 +46,16 @@ export class IssueController {
         }
     }
 
+    @Delete(':id')
+    async deleteIssueById(@Param('id') id: string): Promise<{ message: string }> {
+        try {
+            const result = await this.issueService.deleteIssueById(id);
+            return result;
+        } catch (error) {
+            if (error instanceof NotFoundException) {
+                throw new NotFoundException(error.message);
+            }
+            throw new HttpException('Error eliminando el tema', HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

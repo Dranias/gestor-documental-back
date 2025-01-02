@@ -32,7 +32,7 @@ export class SocketGateway
   // Método ejecutado al conectar un cliente
   handleConnection(client: Socket) {
     this.logger.log(`Cliente conectado: ${client.id}`);
-    client.emit('alert', { message: '¡Bienvenido al servidor WebSocket!' });
+    client.emit('alert', { message: '¡Conectado al Gestor de OPE!' });
   }
 
   // Método ejecutado al desconectar un cliente
@@ -41,20 +41,10 @@ export class SocketGateway
     console.log(`Cliente desconectado: ${client.id}`);
   }
 
-  // Ejemplo de un evento WebSocket
-  @SubscribeMessage('message')
-  handleMessage(@MessageBody() data: { user: string; message: string }) {
-    this.logger.log(`Mensaje recibido de ${data.user}: ${data.message}`);
-    // Emitir un mensaje a todos los clientes conectados
-    this.server.emit('message', {
-      user: data.user,
-      message: data.message,
-    });
-  }
-
   // Método para emitir eventos a todos los clientes
   broadcast(event: string, data: any) {
-    console.log(`Emitiendo evento: ${event}`, data);  // Verificar que se está emitiendo correctamente
+    console.log(`Emitiendo evento: ${event}`);  // Verificar que se está emitiendo correctamente
     this.server.emit(event, data);  // Emitir el evento
   }
+
 }
