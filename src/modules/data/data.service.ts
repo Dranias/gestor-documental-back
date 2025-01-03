@@ -46,7 +46,7 @@ export class DataService {
             return newData;
         });
         // Emitir el evento "data-added" con el nuevo issue
-        this.socketGateway.broadcast('data-added', product);
+        this.socketGateway.broadcast('data-added', product.docNumber);
         return product;
     }
 
