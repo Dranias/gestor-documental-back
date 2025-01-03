@@ -36,11 +36,10 @@ export class ActorsService {
       throw new Error('Actor no encontrado');
     }
 
-    console.log("DTO: ", updateActorsDto);
-    console.log("Actor: ", actor);
-
     // Asignar los valores del DTO al actor
     Object.assign(actor, updateActorsDto);
+
+    this.socketGateway.broadcast('actor-patch', actor.autoriza);
 
     // Guardar el actor actualizado
     return this.actorsRepository.save(actor);
