@@ -9,13 +9,14 @@ import { IssueModule } from './modules/issue/issue.module';
 import { InstitutionModule } from './modules/institution/institution.module';
 import { InvitationModule } from './modules/invitation/invitation.module';
 import { AgendaModule } from './modules/agenda/agenda.module'
+import { ActorsModule } from './modules/actors/actors.module';
 import { SocketGateway } from './gateways/socket.gateway/socket.gateway.gateway';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync(typeOrmConfigAsync),
-    DataModule, IssueModule, InstitutionModule, InvitationModule, AgendaModule,
+    DataModule, IssueModule, InstitutionModule, InvitationModule, AgendaModule, ActorsModule,
   ],
   controllers: [AppController],
   providers: [AppService, SocketGateway],
