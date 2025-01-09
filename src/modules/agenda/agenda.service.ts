@@ -82,7 +82,7 @@ export class AgendaService {
     async getAllAgendaByPosition(): Promise<Agenda[]> {
         return await this.agendaRepository.find({
             order: {
-                position: 'DESC', // Ordenar por position en orden ascendente (puedes cambiar a 'DESC' si necesitas descendente)
+                position: 'ASC', // Ordenar por position en orden ascendente
             },
         });
     }
