@@ -7,9 +7,8 @@ export class Audiences {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column()
-    @IsString()
-    date: string;
+    @Column({ type: 'date' })
+    date: Date;
 
     @Column({ type: 'int', unique: true, primary: true, generated: 'increment' })
     folio: number;

@@ -1,11 +1,11 @@
-import { IsString, IsBoolean } from 'class-validator';
+import { IsString, IsBoolean, IsDateString } from 'class-validator';
 
 export class CreateAudienceDto {
 
     @IsString()
     folio: string;
 
-    @IsString()
+    @IsDateString()
     date: string;
 
     @IsString()

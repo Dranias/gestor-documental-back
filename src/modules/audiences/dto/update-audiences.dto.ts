@@ -1,8 +1,8 @@
-import { IsString, IsBoolean } from 'class-validator';
+import { IsString, IsBoolean, IsDateString } from 'class-validator';
 
 export class UpdateAudienceDto {
 
-    @IsString()
+    @IsDateString()
     date: string;
 
     @IsString()

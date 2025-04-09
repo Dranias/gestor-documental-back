@@ -30,11 +30,12 @@ export class AudiencesService {
 
     const audience = await this.audienceRepository.manager.transaction(async (transactionalEntityManager) => {
       const newData = new Audiences();
-      newData.date = date
+      newData.date = new Date(date);
       newData.name = name;
       newData.position = position;
       newData.description = description;
       newData.priority = priority;
+      newData.createdAt = new Date();
       await transactionalEntityManager.save(newData);
       return newData;
     });
