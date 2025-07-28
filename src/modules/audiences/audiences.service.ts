@@ -25,9 +25,6 @@ export class AudiencesService {
 
     const { date, name, position, description, priority } = createAudienceDto;
 
-    console.log("Data");
-    console.log(createAudienceDto);
-
     const audience = await this.audienceRepository.manager.transaction(async (transactionalEntityManager) => {
       const newData = new Audiences();
       newData.date = new Date(date);
@@ -55,10 +52,12 @@ export class AudiencesService {
     });
   }
 
-  // Obtener todas las audiencias ordenadas por folio
   async getAll(): Promise<Audiences[]> {
-    const all = await this.audienceRepository.find();
-    return all.sort((a, b) => a.folio - b.folio);
+    return this.audienceRepository.find({
+      order: {
+        folio: 'DESC', // De mayor a menor
+      },
+    });
   }
 
   // Obtener por ID

@@ -12,12 +12,14 @@ import { AgendaModule } from './modules/agenda/agenda.module'
 import { ActorsModule } from './modules/actors/actors.module';
 import { AudiencesModule } from './modules/audiences/audiences.module';
 import { SocketGateway } from './gateways/socket.gateway/socket.gateway.gateway';
+import { PdfMergerModule } from './modules/pdfMerger/pdfMerger.module';
+
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync(typeOrmConfigAsync),
-    DataModule, IssueModule, InstitutionModule, InvitationModule, AgendaModule, ActorsModule, AudiencesModule,
+    DataModule, IssueModule, InstitutionModule, InvitationModule, AgendaModule, ActorsModule, AudiencesModule, PdfMergerModule,
   ],
   controllers: [AppController],
   providers: [AppService, SocketGateway],
