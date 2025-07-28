@@ -14,6 +14,16 @@ async function bootstrap() {
   const uploadPath = path.join(__dirname, '..', 'uploads');
   if (!fs.existsSync(uploadPath)) {
     fs.mkdirSync(uploadPath);
+  } else {
+    // Si existe, eliminar todos los archivos dentro
+    const files = fs.readdirSync(uploadPath);
+    for (const file of files) {
+      const filePath = path.join(uploadPath, file);
+      // Verificar que sea archivo para evitar borrar subcarpetas accidentalmente
+      if (fs.lstatSync(filePath).isFile()) {
+        fs.unlinkSync(filePath);
+      }
+    }
   }
 
   // Configurar el adaptador de WebSocket de NestJS
