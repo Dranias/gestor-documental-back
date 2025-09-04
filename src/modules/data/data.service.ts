@@ -1,6 +1,6 @@
 import { BadRequestException, HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { Data } from './entity/data.entity';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateDataDto } from './dto/create-data.dto';
 import { UpdateDataDto } from './dto/update-data.dto';
@@ -137,11 +137,7 @@ export class DataService {
     }
 
     async existsDocNumberInOther(id: string, docNumber: string): Promise<boolean> {
-        const qb = this.dataRepository.createQueryBuilder('data')
-            .where(':docNumber = ANY(data.docNumber)', { docNumber })
-            .andWhere('data.id != :id', { id }); // excluir el registro actual
-
-        const found = await qb.getOne();
-        return !!found;
+        const allData = await this.dataRepository.find({ where: { id: Not(id) } });
+        return allData.some(d => d.docNumber.includes(docNumber));
     }
 }
