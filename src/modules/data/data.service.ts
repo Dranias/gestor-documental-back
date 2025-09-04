@@ -135,4 +135,13 @@ export class DataService {
         }
         return { success: true, message: 'Data found successfully', data };
     }
+
+    async existsDocNumberInOther(id: string, docNumber: string): Promise<boolean> {
+        const qb = this.dataRepository.createQueryBuilder('data')
+            .where(':docNumber = ANY(data.docNumber)', { docNumber })
+            .andWhere('data.id != :id', { id }); // excluir el registro actual
+
+        const found = await qb.getOne();
+        return !!found;
+    }
 }

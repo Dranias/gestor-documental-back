@@ -20,13 +20,12 @@ export class DataController {
       };
     } catch (error) {
       console.log("Este es el error:", error)
-      if(error.message === 'El número de documento ya existe')
-      {
+      if (error.message === 'El número de documento ya existe') {
         throw new HttpException(
           'El número de documento ya existe',
           HttpStatus.BAD_REQUEST
         )
-      }else{
+      } else {
         throw new HttpException(
           'Error en el sistema, por favot intente de nuevo',
           HttpStatus.INTERNAL_SERVER_ERROR
@@ -98,6 +97,22 @@ export class DataController {
         throw new NotFoundException(error.message);
       }
       throw new HttpException('Error updating data', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @Get('/exists-in-other/:id')
+  async existsDocNumberInOther(
+    @Param('id') id: string,
+    @Query('docNumber') docNumber: string
+  ): Promise<{ exists: boolean }> {
+    try {
+      const exists = await this.dataService.existsDocNumberInOther(id, docNumber);
+      return { exists };
+    } catch (error) {
+      throw new HttpException(
+        'Error verificando el documento',
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
     }
   }
 

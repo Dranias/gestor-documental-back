@@ -31,7 +31,7 @@ async function bootstrap() {
 
   // Configurar CORS para la API REST
   app.enableCors({
-    origin: ['http://localhost:5173', 'http://192.168.103.214:5173'],
+    origin: ['http://localhost:5173', 'http://192.168.103.214:5173', 'http://192.168.103.214:1500', 'http://localhost:1500'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
