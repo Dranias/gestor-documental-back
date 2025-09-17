@@ -6,9 +6,18 @@ import { IoAdapter } from '@nestjs/platform-socket.io';
 import * as express from 'express';
 import * as path from 'path';
 import * as fs from 'fs';
+import * as https from 'https';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+
+  const httpsOptions = {
+    key: fs.readFileSync(path.join(__dirname, '..', 'ssl', 'key.pem')),
+    cert: fs.readFileSync(path.join(__dirname, '..', 'ssl', 'cert.pem')),
+  };
+
+  const app = await NestFactory.create(AppModule, {
+    httpsOptions,
+  });
 
   //Crea la ruta uploads si no existe; carpeta para los merge pdf
   const uploadPath = path.join(__dirname, '..', 'uploads');
@@ -45,7 +54,7 @@ async function bootstrap() {
   const HOST = configService.get<string>('APP_HOST');
 
   await app.listen(PORT, HOST, () => {
-    console.log(`Servidor corriendo en http://${HOST}:${PORT}`);
+    console.log(`Servidor corriendo en https://${HOST}:${PORT}`);
   });
 }
 
